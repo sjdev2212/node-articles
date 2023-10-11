@@ -4,11 +4,9 @@ const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -31,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/articles.routes")(app);
+require("./app/routes/users.routes")(app);
 
 
 // set port, listen for requests

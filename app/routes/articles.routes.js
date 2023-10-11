@@ -1,7 +1,7 @@
 module.exports = app => {
     const articles = require("../controllers/articles.controller.js");
   
-    var router = require("express").Router();
+    const router = require("express").Router();
   
     // Create a new Artcicle
    router.post("/create-article", articles.create); 
