@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const cors = require("cors");
+const userRoutes = require("./db/routes/userRoutes");
 
 
 const app = express();
@@ -30,40 +31,8 @@ app.use(
   // execute database connection
 dbConnect();
 
-app.get ("/", (req, res) => {
-    res.send("Hello World!");
-    }
-    );
+app.use("/api", userRoutes);
 
-
-
-/*register a user*/ 
-app.post ("/register", async (req, res) => {
-
-    const { username, email, password,role } = req.body;
-    try {
-      const user = await User.create({ username, email, password,role });
-      res.status(201).json({
-        status: "success",
-        user,
-      });
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-    }
-
-    );
-
-    /*get all users*/
-app.get ("/users", async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200).json({ users });
-      } catch (error) {
-        res.status(400).json({ error });
-      }
-    }
-    );
 
 
 
