@@ -37,7 +37,7 @@ app.get ("/", (req, res) => {
 
 
 
-/*register*/ 
+/*register a user*/ 
 app.post ("/register", async (req, res) => {
 
     const { username, email, password,role } = req.body;
