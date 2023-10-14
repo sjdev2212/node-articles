@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
-let id = 1;
-const userId =()=>{
-    return  id++;
-}
 
 
 const UserSchema = new mongoose.Schema({
 
   _id : {
      type: Number,
-     default: userId,
+
+
  }, 
  username : {
      type: String,
