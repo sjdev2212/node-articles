@@ -8,21 +8,6 @@ const session = require('express-session');
 
 
 /* resgister a user */
-/* router.post('/register', async (req, res) => {
-  const { username, email, password, role, } = req.body;
-  try {
-
-    const _id = await User.countDocuments() + 1;
-    const user = await User.create({ username, email, password, role, _id  });
-    res.status(201).json({
-      status: 'success',
-      user,
-    });
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
- */
 
 
 router.post('/register', async (req, res) => {
@@ -55,6 +40,89 @@ router.post('/register', async (req, res) => {
       res.status(500).json({ message: 'An error occurred while processing your request.' });
     }
   });
+
+  /* login a user */    
+  router.post("/login", (request, response) => {
+    const { email, password } = request.body;
+  
+  const existingSession = request.session.user;
+  if (existingSession) {
+    return response.status(400).send({
+      message: "User already logged in"
+  
+    });
+  }
+  User.findOne({ email: email })
+      .then((user) => {
+        if (user) {
+          bcrypt
+            .compare(password, user.password)
+            .then((result) => {
+              if (result) {
+                const token = jwt.sign(
+                  { email: user.email, _id: user._id},
+                  "secretkey",
+                  { expiresIn: "2h" }
+                );
+                request.session.user = user;
+               
+                response.status(200).send({
+                  message: "Login Successful",
+                  token,
+                user:  user.username,
+                id: user._id
+                });
+              } else {
+                response.status(401).send({
+                  message: "Unauthorized Access",
+                });
+              }
+            })
+            .catch((error) => {
+              response.status(500).send({
+                message: "Error comparing passwords",
+                error,
+              });
+            });
+        } else {
+          response.status(404).send({
+            message: "User not found",
+          });
+        }
+      }
+      )
+  
+  
+  
+  });
+  
+  // logout a user
+  
+  router.post("/logout", (request, response) => {
+  
+    const checkSession = request.session.user;
+    if (!checkSession) {
+      return response.status(400).send({
+        message: "You are already logged out"
+  
+      });
+    }
+  
+    request.session.destroy((error) => {
+      if (error) {
+        response.status(500).send({
+          message: "Error logging out",
+          error,
+        });
+      } else {
+        response.status(200).send({
+          message: "Logout successful",
+        });
+  
+      }
+    });
+  });
+  
 
 /* get all users */
 router.get('/users', async (req, res) => {
