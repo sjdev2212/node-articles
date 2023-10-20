@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
      required: true,
  },
 
- customAvatar: {
+ Avatar: {
     type: String, // Store the URL of the custom avatar image
   },
   selectedAvatar: {
