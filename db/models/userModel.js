@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 
+
 const UserSchema = new mongoose.Schema({
 
   _id : {
@@ -24,11 +25,19 @@ const UserSchema = new mongoose.Schema({
      type: String,
      required: true,
  },
+
+ customAvatar: {
+    type: String, // Store the URL of the custom avatar image
+  },
+  selectedAvatar: {
+    type: String, // Store the selected avatar filename or identifier
+  },
  role : {
      type: String,
      enum: ["user", "admin"],
      default: "user",
  },
+
  createdAt : {
      type: Date,
      default: Date.now,

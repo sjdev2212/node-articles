@@ -3,16 +3,19 @@ const router = express.Router();
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const session = require('express-session');
+
+
+
 
 
 
 /* resgister a user */
 
 
-router.post('/register', async (req, res) => {
+router.post('/register',  async   (req, res) => {
     try {
-      const { username, email, password,role } = req.body;
+    
+      const { username, email, password,role,avatar } = req.body;
   
       // Check if the user already exists
       const existingUser = await User.findOne({ email });
@@ -31,6 +34,7 @@ router.post('/register', async (req, res) => {
         password: hashedPassword,
         role,
         _id,
+        avatar
       });
       await newUser.save();
   
