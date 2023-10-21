@@ -74,7 +74,8 @@ router.post('/register',  async   (req, res) => {
                   message: "Login Successful",
                   token,
                 user:  user.username,
-                id: user._id
+                id: user._id,
+                avatar: user.avatar
                 });
               } else {
                 response.status(401).send({
