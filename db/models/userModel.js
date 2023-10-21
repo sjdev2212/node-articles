@@ -27,7 +27,9 @@ const UserSchema = new mongoose.Schema({
  },
 
  Avatar: {
-    type: String, // Store the URL of the custom avatar image
+    type: String, 
+    default: "https://res.cloudinary.com/db1yj4fpr/image/upload/v1697846186/default_xkx9w8.png",
+
   },
   selectedAvatar: {
     type: String, // Store the selected avatar filename or identifier
